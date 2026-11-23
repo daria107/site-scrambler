@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scrambled — ночь, перрон и живой кубик</title>
+  <meta name="description" content="Интерактивный фан-сайт о короткометражном мультфильме Scrambled (Polder Animation)." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b1020'/%3E%3Crect x='10' y='10' width='12' height='12' rx='2' fill='%23ff8b9a'/%3E%3Crect x='26' y='10' width='12' height='12' rx='2' fill='%23ffd580'/%3E%3Crect x='42' y='10' width='12' height='12' rx='2' fill='%238fd6a8'/%3E%3Crect x='10' y='26' width='12' height='12' rx='2' fill='%238fcbf0'/%3E%3Crect x='26' y='26' width='12' height='12' rx='2' fill='%23c7a8f5'/%3E%3Crect x='42' y='26' width='12' height='12' rx='2' fill='%23f5a8c7'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-layer" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+    <div class="particles" id="particles"></div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <span class="brand-cube">
+        <i class="c r"></i><i class="c y"></i><i class="c g"></i>
+        <i class="c b"></i><i class="c v"></i><i class="c p"></i>
+      </span>
+      <span>SCRAMBLED</span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#plot">Сюжет</a>
+      <a href="#game">Игра</a>
+      <a href="#meaning">Смысл</a>
+      <a href="#heroes">Герои</a>
+      <a href="#facts">Факты</a>
+      <a class="nav-cta" href="#watch">Смотреть</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text reveal">
+        <p class="kicker">Polder Animation · 2017 · короткий метр</p>
+        <h1>Scrambled</h1>
+        <p class="lead">
+          Поздний вечер. Пустая платформа. Девочка, которая опоздала на поезд.
+          Пока экран телефона светится яркой игрой, старый кубик Рубика терпеливо ждёт,
+          что кто-нибудь наконец его соберёт.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#plot">Погрузиться в сюжет</a>
+          <a class="btn btn-ghost" href="#watch">Смотреть мультфильм</a>
+        </div>
+        <ul class="hero-stats">
+          <li><b>~6 мин</b><span>длительность</span></li>
+          <li><b>3D</b><span>анимация</span></li>
+          <li><b>5+</b><span>возраст</span></li>
+        </ul>
+      </div>
+
+      <div class="hero-art reveal">
+        <div class="cube-stage">
+          <div class="cube-3d">
+            <div class="face front"></div>
+            <div class="face back"></div>
+            <div class="face left"></div>
+            <div class="face right"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
+          </div>
+        </div>
+        <p class="hero-caption">Кубик, который очень хочет быть собранным.</p>
+      </div>
+    </section>
+
+    <!-- ИГРА -->
+    <section class="section" id="game">
+      <div class="section-head reveal">
+        <h2>Собери кубик сам</h2>
+        <p>Простая головоломка 3×3. Нажми на ячейку, чтобы сдвинуть строку или столбец.</p>
+      </div>
+
+      <div class="howto reveal">
+        <div class="howto-step"><span class="num">1</span><h3>Задача</h3><p>Сделай так, чтобы каждая строка была одного цвета.</p></div>
+        <div class="howto-step"><span class="num">2</span><h3>Управление</h3><p>Клик по ячейке сдвигает строку или столбец на один шаг.</p></div>
+        <div class="howto-step"><span class="num">3</span><h3>Совет</h3><p>Сначала собери одну строку, потом вторую — третья соберётся сама.</p></div>
+      </div>
+
+      <div class="puzzle-wrap reveal">
+        <div class="puzzle-board" id="board" role="grid" aria-label="Игровое поле 3 на 3"></div>
+        <div class="puzzle-panel">
+          <div class="puzzle-status">
+            <div><span class="label">Ходы</span><strong id="moves">0</strong></div>
+            <div><span class="label">Время</span><strong id="timer">00:00</strong></div>
+            <div><span class="label">Статус</span><strong id="status">Готов?</strong></div>
+          </div>
+          <div class="puzzle-actions">
+            <button class="btn btn-primary" id="btnScramble" type="button">Перемешать</button>
+            <button class="btn btn-ghost" id="btnSolve" type="button">Собрать</button>
+            <button class="btn btn-ghost" id="btnReset" type="button">Сброс</button>
+          </div>
+          <p class="puzzle-hint">💡 Совет: сначала собери одну строку, потом вторую — третья соберётся сама.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЮЖЕТ -->
+    <section class="section" id="plot">
+      <div class="section-head reveal">
+        <h2>О чём фильм</h2>
+        <p>Ночная история о встрече цифрового и аналогового: смартфон, живой кубик и выбор между лёгким экраном и трудом рук.</p>
+      </div>
+      <div class="plot-grid">
+        <figure class="plot-art reveal">
+          <!-- ⬇️ ССЫЛКА: большая картинка «ночная платформа» -->
+          <img class="plot-img"
+               src="https://avatars.mds.yandex.net/i?id=34e7c71b8a3c36389774f2fbce73aecc6c7ddd4d-12813659-images-thumbs&n=13"
+               alt="Ночная платформа: поезд давно ушёл" />
+          <figcaption>Эсра опоздала на поезд — впереди долгое ожидание.</figcaption>
+        </figure>
+        <ol class="timeline reveal">
+          <li><span class="dot"></span><h3>Поезд ушёл</h3><p>Поздний вечер, пустая станция. Эсра остаётся одна со скукой и телефоном.</p></li>
+          <li><span class="dot"></span><h3>Экран спасает от скуки</h3><p>Яркая простая игра мигает и звенит — всё происходит мгновенно.</p></li>
+          <li><span class="dot"></span><h3>Кубик подаёт голос</h3><p>Рядом оживает старый кубик Рубика. Он хочет только одного — чтобы его собрали.</p></li>
+          <li><span class="dot"></span><h3>Выбор</h3><p>Лёгкая цифровая награда против труда руками и терпения.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- СМОТРЕТЬ -->
+    <div class="watch-frame">
+  <iframe
+    src="scrambler.mp4"
+    width="100%"
+    height="100%"
+    frameborder="0"
+    allow="autoplay; fullscreen; picture-in-picture"
+    allowfullscreen
+    title="Scrambled — короткометражный мультфильм"
+    style="border-radius: 18px;"
+  ></iframe>
+</div>
+
+    <!-- СМЫСЛ -->
+    <section class="section" id="meaning">
+      <div class="section-head reveal">
+        <h2>В чём смысл</h2>
+        <p>Фильм не ругает технологии. Он спрашивает: что мы теряем, когда настоящие игрушки уходят на второй план?</p>
+      </div>
+
+      <div class="meaning-cards reveal">
+        <article class="meaning-card">
+          <div class="meaning-icon">📱</div>
+          <h3>Цифровое</h3>
+          <ul>
+            <li>Яркий и быстрый</li>
+            <li>Награждает мгновенно</li>
+            <li>Не требует терпения</li>
+          </ul>
+        </article>
+        <article class="meaning-card accent">
+          <div class="meaning-icon">🧩</div>
+          <h3>Аналоговое</h3>
+          <ul>
+            <li>Молчаливый и неудобный</li>
+            <li>Требует усилий и внимания</li>
+            <li>Радость — только когда собран сам</li>
+          </ul>
+        </article>
+      </div>
+
+      <blockquote class="idea reveal">
+        Старая игрушка не соревнуется с экраном яркостью. Она предлагает другое:
+        настоящую победу, которую ты заработал руками.
+      </blockquote>
+    </section>
+
+    <!-- ГЕРОИ -->
+    <section class="section" id="heroes">
+      <div class="section-head reveal">
+        <h2>Герои</h2>
+        <p>Три персонажа, три характера и один вечер на платформе.</p>
+      </div>
+      <div class="heroes-grid">
+        <article class="hero-card reveal">
+          <!-- ⬇️ ССЫЛКА: картинка Эсры -->
+          <img class="hero-img"
+               src="https://avatars.mds.yandex.net/i?id=d5791b6ab8301bf4454a78580c4b225c282bc396-13212321-images-thumbs&n=13"
+               alt="Эсра смотрит в телефон" />
+          <h3>Эсра</h3>
+          <p>Девочка на платформе. Пропустила поезд и ищет, чем занять себя. Её лицо освещает экран, а вокруг ждёт настоящая игра.</p>
+        </article>
+
+        <article class="hero-card reveal">
+          <!-- ⬇️ ССЫЛКА: картинка кубика Рубика -->
+          <img class="hero-img"
+               src="https://avatars.mds.yandex.net/i?id=e1ecdd7dbda88e27f9be4ea6890008d1-5242958-images-thumbs&n=13"
+               alt="Живой кубик Рубика" />
+          <h3>Кубик Рубика</h3>
+          <p>Старая игрушка с характером. Он перемешан, ему неуютно, и он пытается привлечь внимание.</p>
+        </article>
+
+        <article class="hero-card reveal">
+          <!-- ⬇️ ССЫЛКА: картинка смартфона с игрой -->
+          <img class="hero-img"
+               src="https://avatars.mds.yandex.net/i?id=d1dfb8e62b9621578a52498356f5a1a7e6f53021-5404314-images-thumbs&n=13"
+               alt="Смартфон с игрой" />
+          <h3>Смартфон</h3>
+          <p>Главный соперник кубика. Он не злодей — он просто всегда под рукой и увлекательнее тишины.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ФАКТЫ -->
+    <section class="section" id="facts">
+      <div class="section-head reveal">
+        <h2>Данные о фильме</h2>
+      </div>
+      <dl class="facts-grid reveal">
+        <div><dt>Название</dt><dd>Scrambled</dd></div>
+        <div><dt>Студия</dt><dd>Polder Animation, Нидерланды</dd></div>
+        <div><dt>Режиссёр</dt><dd>Bastiaan Schravendeel</dd></div>
+        <div><dt>Композитор</dt><dd>Daniel Polman</dd></div>
+        <div><dt>Длительность</dt><dd>около 6–7 минут</dd></div>
+        <div><dt>Формат</dt><dd>3D-анимация, короткий метр</dd></div>
+        <div><dt>Фестиваль</dt><dd>Nederlands Film Festival, 2017</dd></div>
+        <div><dt>Возраст</dt><dd>рекомендуют от 5 лет</dd></div>
+      </dl>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Фан-сайт. Не связан с Polder Animation; права на фильм принадлежат его авторам.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
